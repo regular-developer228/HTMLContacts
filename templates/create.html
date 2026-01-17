@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Add/Edit Contact{% endblock %}
+{% block title %}HTMLContacts - Add/Edit{% endblock %}
 
 {% block content %}
-Add contact
+<h1>{% if contact %}Change{% else %}Add{% endif %} contact</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
 {% endblock %}
