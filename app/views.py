@@ -18,3 +18,9 @@ def add(request):
 
 def abt(request):
     return render(request, "about.html")
+
+def edit(request):
+    pass
+
+def delete(request):
+    pass

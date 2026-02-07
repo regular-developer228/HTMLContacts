@@ -21,12 +21,16 @@ from django.urls import path
 from app.views import home
 from app.views import add
 from app.views import abt
+from app.views import edit
+from app.views import delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('add/', add, name='addcnct'),
-    path('about/', abt, name='aboutpg')
+    path('about/', abt, name='aboutpg'),
+    path('edit/<int:pk>/', edit, name='edit'),
+    path('delete/<int:pk>/', delete, name='delete')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
