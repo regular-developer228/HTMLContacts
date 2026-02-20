@@ -3,19 +3,36 @@ from .models import Contact
 from .forms import ContactForm
 from django.db.models import Q
 
-def home(request):
-    contacts = Contact.objects.all()
 
-    query = request.GET.get('q')
-    results = []
+def home(request):
+    """
+    Головна сторінка додатку - відображає список усіх контактів.
+    Підтримує пошук за ім'ям, прізвищем, номером телефону та email.
+    """
+
+    # Отримуємо параметр пошуку 'q' з GET-запиту.
+    # Якщо параметр відсутній - повертаємо порожній рядок.
+    query = request.GET.get('q', '')
+
     if query:
+        # Якщо користувач ввів пошуковий запит - фільтруємо контакти.
+        # Q-об'єкти дозволяють використовувати логічне АБО (|).
         contacts = Contact.objects.filter(
             Q(name__icontains=query) |
             Q(phone__icontains=query) |
             Q(mail__icontains=query)
         )
+    else:
+        # Якщо рядок пошуку порожній - повертаємо всі контакти.
+        contacts = Contact.objects.all()
 
-    return render(request, "list.html", {'contacts':contacts, 'query':query})
+    # Передаємо контакти та сам запит у шаблон.
+    context = {
+        'contacts': contacts,
+        'query': query
+    }
+
+    return render(request, 'list.html', context)
 
 def add(request):
     if request.method == "POST":
